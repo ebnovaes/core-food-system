@@ -28,6 +28,8 @@ namespace OdeToFoodCore
 
         public void Configure(IApplicationBuilder app, IGreeter greeter)
         {
+            app.UseRuntimeInfoPage();
+
             app.Run(async (context) =>
             {
                 var greeting = greeter.GetGreeting();
