@@ -19,6 +19,7 @@ namespace OdeToFoodCore
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
             services.AddSingleton(provider => Configuration)
                     .AddSingleton<IGreeter, Greeter>();
                     
@@ -26,9 +27,23 @@ namespace OdeToFoodCore
 
         IConfiguration Configuration { get; set; }
 
-        public void Configure(IApplicationBuilder app, IGreeter greeter)
+        public void Configure(
+            IApplicationBuilder app,
+            IHostingEnvironment environment,
+            IGreeter greeter)
         {
             app.UseRuntimeInfoPage();
+
+            if (environment.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
+            app.UseRuntimeInfoPage();
+
+            app.UseFileServer();
+
+            app.UseMvcWithDefaultRoute();
 
             app.Run(async (context) =>
             {
