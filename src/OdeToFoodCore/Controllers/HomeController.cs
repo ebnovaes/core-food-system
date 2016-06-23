@@ -1,14 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OdeToFoodCore.Models;
+using OdeToFoodCore.Services;
 
 namespace OdeToFoodCore.Controllers
 {
     public class HomeController : Controller
     {
-        public ObjectResult Index()
+        public HomeController(IRestaurantData restaurantData)
         {
-            var model = new Restaurant() { Id = 1, Name = "Sabatino's" };
-            return new ObjectResult(model);
+            _restaurantData = restaurantData;
         }
+
+        public ViewResult Index()
+        {
+            var model = _restaurantData.GetAll();
+
+            return View(model);
+        }
+
+        private IRestaurantData _restaurantData;
     }
 }
